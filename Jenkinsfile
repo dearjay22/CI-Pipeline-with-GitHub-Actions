@@ -7,7 +7,7 @@ pipeline {
     stages {
 
         // =========================
-        // Build & Test Stage (like GitHub Actions build-and-test)
+        // Build & Test Stage (like GitHub Actions build-and-test) 
         // =========================
         stage('Checkout') {
             steps {
