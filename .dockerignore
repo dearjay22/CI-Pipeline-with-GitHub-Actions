@@ -1,0 +1,23 @@
+# Node modules - rebuild inside container
+node_modules
+
+# Test files
+tests
+coverage
+*.log
+
+# Git and metadata
+.git
+.gitignore
+
+# OS / Editor junk
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+
+# CI and docs
+.github
+README.md
+Jenkinsfile

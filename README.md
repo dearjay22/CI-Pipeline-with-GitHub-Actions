@@ -64,3 +64,5 @@ docker pull yourusername/ci-midterm-sample:latest
 - Create credentials with Docker Hub username/password (or token) and update DOCKERHUB_CREDENTIALS credential id in Jenkinsfile.
 
 - Ensure the agent has Docker and Node installed (or use a Docker agent).
+
+![alt text](image.png)
