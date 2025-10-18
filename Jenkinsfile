@@ -17,7 +17,7 @@ pipeline {
 
         stage('Setup Node.js') {
             steps {
-                bat 'node -v' // Node version check
+                bat 'node -v'
                 bat 'npm -v'
             }
         }
