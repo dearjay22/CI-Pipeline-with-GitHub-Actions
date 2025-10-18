@@ -66,3 +66,7 @@ docker pull yourusername/ci-midterm-sample:latest
 - Ensure the agent has Docker and Node installed (or use a Docker agent).
 
 ![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
