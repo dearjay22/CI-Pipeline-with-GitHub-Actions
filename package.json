@@ -1,0 +1,20 @@
+{
+  "name": "ci-midterm-sample",
+  "version": "1.0.0",
+  "description": "Sample Node.js app for CI mid-term (build, test, docker).",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --runInBand",
+    "lint": "node -e \"console.log('no linter configured')\""
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0"
+  }
+}
