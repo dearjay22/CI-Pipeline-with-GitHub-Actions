@@ -6,16 +6,24 @@ pipeline {
     }
     stages {
 
+        // =========================
+        // Build & Test Stage (like GitHub Actions build-and-test)
+        // =========================
         stage('Checkout') {
             steps {
-                // Pull latest code from GitHub
                 checkout scm
+            }
+        }
+
+        stage('Setup Node.js') {
+            steps {
+                bat 'node -v' // Node version check
+                bat 'npm -v'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Windows batch command
                 bat 'npm ci'
             }
         }
@@ -26,12 +34,23 @@ pipeline {
             }
         }
 
+        stage('Set Image Tag') {
+            steps {
+                script {
+                    // Simulate GitHub SHA with Jenkins GIT_COMMIT (if available)
+                    env.IMAGE_TAG = env.GIT_COMMIT ?: "build-${env.BUILD_NUMBER}"
+                    echo "Image tag set to: ${env.IMAGE_TAG}"
+                }
+            }
+        }
+
+        // =========================
+        // Build & Push Docker Image (like build-and-push-image job)
+        // =========================
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Use BUILD_NUMBER for unique tag
-                    env.DOCKER_TAG = "build-${env.BUILD_NUMBER}"
-                    bat "docker build -t %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:%DOCKER_TAG% ."
+                    bat "docker build -t %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:%IMAGE_TAG% ."
                 }
             }
         }
@@ -39,17 +58,20 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Login to Docker Hub and push the image
+                    // Login to Docker Hub
                     bat "echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin"
-                    bat "docker push %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:%DOCKER_TAG%"
+                    // Push with IMAGE_TAG and latest
+                    bat "docker push %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:%IMAGE_TAG%"
+                    bat "docker tag %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:%IMAGE_TAG% %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:latest"
+                    bat "docker push %DOCKERHUB_CREDENTIALS_USR%/ci-midterm-sample:latest"
                 }
             }
         }
+
     }
 
     post {
         always {
-            // Clean workspace after build
             cleanWs()
         }
         failure {
