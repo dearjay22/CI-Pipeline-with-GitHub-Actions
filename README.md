@@ -7,7 +7,7 @@ Simple Node.js app used for demonstrating CI with GitHub Actions and Docker imag
 1. Install deps:
 
 ```bash
-npm install
+npm ci
 ```
 
 2. Run tests:
